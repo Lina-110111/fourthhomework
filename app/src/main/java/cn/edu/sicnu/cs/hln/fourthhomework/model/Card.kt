@@ -10,14 +10,17 @@ class Card(private var suit: String, private var rank: String, var isChosen:Bool
         return suit + rank
     }
 
+    // 修改匹配逻辑：接收一个卡牌数组（通常是3张）
     fun match(otherCards: Array<Card>): Int {
         var score = 0
-        if (otherCards.size == 1) {
-            val otherCard = otherCards[0]
-            if (otherCard.rank == rank) {
-                score = 4
-            } else if (otherCard.suit == suit) {
-                score = 1
+        if (otherCards.size == 3) {
+            // 判断是否3张点数相同
+            if (otherCards[0].rank == otherCards[1].rank && otherCards[1].rank == otherCards[2].rank) {
+                score = 12 // 3张同点数给12分
+            }
+            // 判断是否3张花色相同
+            else if (otherCards[0].suit == otherCards[1].suit && otherCards[1].suit == otherCards[2].suit) {
+                score = 3  // 3张同花色给3分
             }
         }
         return score

@@ -32,4 +32,8 @@
     <string name="score_format">得分：%1$d</string>
     <string name="btn_reset">重置游戏</string>
     <string name="btn_exit">退出</string>
+    <string name="menu_about">关于</string>
+    <string name="dialog_title">关于本游戏</string>
+    <string name="dialog_message">这是一个基于 RecyclerView 实现的翻牌游戏\n作者：黄丽娜\n学号：2024110111</string>
+    <string name="dialog_ok">确定</string>
 </resources>
