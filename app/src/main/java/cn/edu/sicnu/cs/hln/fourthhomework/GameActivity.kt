@@ -1,18 +1,21 @@
 package cn.edu.sicnu.cs.hln.fourthhomework
 
-import android.graphics.Color
+import android.content.res.Configuration
 import android.os.Bundle
-import android.view.ViewGroup
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.allViews
-import cn.edu.sicnu.cs.hln.fourthhomework.model.CardMatchingGame // 确保你的模型在这个包下
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import cn.edu.sicnu.cs.hln.fourthhomework.model.CardMatchingGame
 
 class GameActivity : AppCompatActivity() {
     private lateinit var game: CardMatchingGame
     private lateinit var tvScore: TextView
-    private val cardButtons = mutableListOf<Button>()
+    private lateinit var adapter: CardAdapter
     private lateinit var userManager: UserInfoManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,64 +24,59 @@ class GameActivity : AppCompatActivity() {
         userManager = UserInfoManager(this)
 
         tvScore = findViewById(R.id.tv_score)
-        game = CardMatchingGame(16)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
 
-        val rootView = findViewById<ViewGroup>(R.id.main)
-        var index = 0
+        // 初始化 24 张牌的模型
+        game = CardMatchingGame(24)
 
-        // 遍历界面上的按钮
-        for (v in rootView.allViews) {
-            // 只要 Button，且排除底部的重置和退出按钮
-            if (v is Button && v.id != R.id.btn_reset && v.id != R.id.btn_exit) {
-                val i = index
-                cardButtons.add(v)
-                v.setOnClickListener {
-                    game.chooseCardAtIndex(i) // 控制器调用模型
-                    updateView()              // 刷新视图
-                }
-                index++
-            }
+        // 判断横竖屏决定列数
+        val spanCount = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 6 else 4
+        recyclerView.layoutManager = GridLayoutManager(this, spanCount)
+
+        // 初始化 Adapter
+        adapter = CardAdapter(game) { position ->
+            game.chooseCardAtIndex(position)
+            updateView()
         }
+        recyclerView.adapter = adapter
 
         // 重置按钮
         findViewById<Button>(R.id.btn_reset).setOnClickListener {
-            game = CardMatchingGame(16)
+            game.reset(24)
             updateView()
         }
 
         // 退出按钮
         findViewById<Button>(R.id.btn_exit).setOnClickListener {
-            userManager.saveHighScore(game.score) // 保存最高分
+            userManager.saveHighScore(game.score)
             finish()
         }
 
         updateView()
     }
 
-    // 更新视图
     private fun updateView() {
         tvScore.text = getString(R.string.score_format, game.score)
+        adapter.notifyDataSetChanged()
+    }
 
-        for (i in 0 until 16) {
-            val card = game.cardAtIndex(i)
-            val button = cardButtons[i]
+    // --- 新增：加载游戏页面的菜单 ---
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // 直接复用主界面的菜单文件
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
 
-            if (!card.isChosen) {
-                // 未选中：显示卡背图
-                button.setBackgroundResource(R.drawable.card_bg)
-                button.text = ""
-            } else {
-                // 选中：显示白底和文字
-                button.setBackgroundColor(Color.WHITE)
-                button.text = card.toString()
-            }
-
-            // 匹配成功变半透明
-            if (card.isMatched) {
-                button.alpha = 0.5f
-            } else {
-                button.alpha = 1.0f
-            }
+    // --- 新增：处理菜单点击事件 ---
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_about) {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_title)
+                .setMessage(R.string.dialog_message)
+                .setPositiveButton(R.string.dialog_ok, null)
+                .show()
+            return true
         }
+        return super.onOptionsItemSelected(item)
     }
 }

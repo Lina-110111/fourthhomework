@@ -4,9 +4,12 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // 1. 刷新文字
+        // 刷新文字信息
         findViewById<TextView>(R.id.tv_name).text = getString(R.string.label_name, userManager.getInfo("name", "张三"))
         findViewById<TextView>(R.id.tv_gender).text = getString(R.string.label_gender, userManager.getInfo("gender", "男"))
         findViewById<TextView>(R.id.tv_sid).text = getString(R.string.label_sid, userManager.getInfo("sid", "20230001"))
@@ -36,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tv_hobby).text = getString(R.string.label_hobby, userManager.getInfo("hobby", "无"))
         findViewById<TextView>(R.id.tv_high_score).text = getString(R.string.label_high_score, userManager.getHighScore())
 
-        // 2. 刷新头像
+        // 刷新头像
         val avatarBase64 = userManager.getAvatar()
         if (avatarBase64 != null) {
             try {
@@ -47,5 +50,25 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+    }
+
+    // --- 新增：加载菜单 ---
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    // --- 新增：处理菜单点击事件 ---
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_about) {
+            // 弹出关于对话框
+            AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_title)
+                .setMessage(R.string.dialog_message)
+                .setPositiveButton(R.string.dialog_ok, null)
+                .show()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
