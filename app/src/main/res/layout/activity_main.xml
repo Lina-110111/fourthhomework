@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="24dp" android:gravity="center_horizontal">
+
+    <!-- 修改了这里：增加了 id，增加了 scaleType 和 background -->
+    <ImageView
+        android:id="@+id/iv_main_avatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:background="#CCCCCC"
+        android:src="@mipmap/ic_launcher_round"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView android:id="@+id/tv_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="18sp" android:layout_marginBottom="8dp"/>
+    <TextView android:id="@+id/tv_gender" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="18sp" android:layout_marginBottom="8dp"/>
+    <TextView android:id="@+id/tv_sid" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="18sp" android:layout_marginBottom="8dp"/>
+    <TextView android:id="@+id/tv_phone" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="18sp" android:layout_marginBottom="8dp"/>
+    <TextView android:id="@+id/tv_email" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="18sp" android:layout_marginBottom="8dp"/>
+    <TextView android:id="@+id/tv_hobby" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="18sp" android:layout_marginBottom="8dp"/>
+    <TextView android:id="@+id/tv_high_score" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="18sp" android:textColor="#FF0000" android:layout_marginBottom="30dp"/>
+
+    <Button android:id="@+id/btn_edit" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/btn_edit_info" android:layout_marginBottom="16dp"/>
+    <Button android:id="@+id/btn_game" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/btn_play_game"/>
+</LinearLayout>

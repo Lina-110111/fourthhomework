@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">huanglina2024110111</string>
+
+    <!-- 主界面 -->
+    <string name="title_info">个人信息</string>
+    <string name="label_name">姓名：%1$s</string>
+    <string name="label_gender">性别：%1$s</string>
+    <string name="label_sid">学号：%1$s</string>
+    <string name="label_phone">电话：%1$s</string>
+    <string name="label_email">邮件：%1$s</string>
+    <string name="label_hobby">爱好：%1$s</string>
+    <string name="label_high_score">最高分：%1$d</string>
+    <string name="btn_edit_info">修改个人信息</string>
+    <string name="btn_play_game">翻牌游戏</string>
+
+    <!-- 修改界面 -->
+    <string name="title_edit">信息修改</string>
+    <string name="hint_name">姓名</string>
+    <string name="hint_sid">学号</string>
+    <string name="hint_phone">电话号码</string>
+    <string name="hint_email">电子邮件地址</string>
+    <string name="gender_male">男</string>
+    <string name="gender_female">女</string>
+    <string name="hobby_travel">旅游</string>
+    <string name="hobby_read">阅读</string>
+    <string name="hobby_game">游戏</string>
+    <string name="hobby_shop">购物</string>
+    <string name="btn_save">保存</string>
+    <string name="btn_cancel">取消</string>
+
+    <!-- 游戏界面 -->
+    <string name="score_format">得分：%1$d</string>
+    <string name="btn_reset">重置游戏</string>
+    <string name="btn_exit">退出</string>
+</resources>
