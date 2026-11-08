@@ -1,6 +1,8 @@
 package cn.edu.sicnu.cs.hln.fourthhomework.model
 
-class CardMatchingGame(count: Int)  {
+import java.io.Serializable
+
+class CardMatchingGame(val count: Int, val requiredMatchCount: Int = 2) : Serializable {
     var score = 0
         private set
 
@@ -14,49 +16,39 @@ class CardMatchingGame(count: Int)  {
         reset(count)
     }
 
-    // 新增 reset 方法
     fun reset(count: Int) {
         score = 0
         val deck = Deck()
         cards.clear()
         for (i in 1..count) {
-            val card: Card? = deck.drawRandomCard()
-            if (card != null) {
-                cards.add(card)
-            }
+            val card = deck.drawRandomCard()
+            if (card != null) cards.add(card)
         }
     }
 
-    fun cardAtIndex(index: Int): Card {
-        return cards[index]
-    }
-
-    // 获取总牌数
+    fun cardAtIndex(index: Int): Card = cards[index]
     val cardCount: Int get() = cards.size
 
     fun chooseCardAtIndex(index: Int) {
         val card = cardAtIndex(index)
         if (!card.isMatched) {
             if (card.isChosen) {
-                card.isChosen = false // 再次点击取消选中
+                card.isChosen = false
             } else {
-                // 找出当前已被选中的牌
                 val chosenCards = cards.filter { it.isChosen && !it.isMatched }
 
-                // 如果加上当前这张牌，总数达到了 3 张，则进行判定
-                if (chosenCards.size == 2) {
-                    val matchCards = arrayOf(chosenCards[0], chosenCards[1], card)
-                    val matchScore = card.match(matchCards)
+                // 根据 requiredMatchCount 判断是否满足匹配条件（2张或3张）
+                if (chosenCards.size == requiredMatchCount - 1) {
+                    val matchCards = chosenCards.toMutableList()
+                    matchCards.add(card)
 
+                    val matchScore = card.match(matchCards.toTypedArray())
                     if (matchScore > 0) {
                         score += matchScore * MATCH_BONUS
-                        // 3张牌都标记为已匹配
-                        chosenCards.forEach { it.isMatched = true }
-                        card.isMatched = true
-                        card.isChosen = false // 匹配后不需要高亮
+                        matchCards.forEach { it.isMatched = true }
+                        card.isChosen = false
                     } else {
                         score -= MISMATCH_PENALTY
-                        // 匹配失败，取消前两张的选中状态
                         chosenCards.forEach { it.isChosen = false }
                     }
                 }
