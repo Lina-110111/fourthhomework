@@ -36,4 +36,8 @@
     <string name="dialog_title">关于本游戏</string>
     <string name="dialog_message">这是一个基于 RecyclerView 实现的翻牌游戏\n作者：黄丽娜\n学号：2024110111</string>
     <string name="dialog_ok">确定</string>
+
+    <string name="nav_info">个人信息</string>
+    <string name="nav_game2">2张翻牌</string>
+    <string name="nav_game3">3张翻牌</string>
 </resources>
